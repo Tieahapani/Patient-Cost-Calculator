@@ -4,6 +4,16 @@ from calculator import calculate_patient_cost
 st.set_page_config(page_title="Patient Medical Cost Calculator", layout="wide")
 st.title("🩺 Patient Medical Cost Calculator")
 
+top_col1, top_col2 = st.columns([5,1])
+with top_col1: 
+    st.title("🩺 Patient Medical Cost Calculator")
+with top_col2:
+    if st.button("🔄 Reset All (Top)"):
+        for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
+            st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
+            st.session_state["coinsurance"] = 20 
+        st.experimental_rerun()
+
 # Use 2 unequal-width columns: form wider, result narrower
 col1, col2 = st.columns([2, 1])  # 2:1 width ratio
 
@@ -20,7 +30,17 @@ with col1:
     st.number_input("Co-Pay Amount ($)", key="copay")
     st.number_input("Out-of-Pocket Max ($)", key="oop_max")
 
-    calculate_pressed = st.button("📋 Calculate")
+     button_col1, button_col2 = st.columns([1, 1])
+    with button_col1:
+        calculate_pressed = st.button("📋 Calculate")
+    with button_col2:
+        if st.button("🔁 Reset (Below)"):
+            for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
+                st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
+            st.session_state["coinsurance"] = 20
+            st.experimental_rerun()
+
+
 
 # --- RIGHT COLUMN: Results ---
 with col2:
