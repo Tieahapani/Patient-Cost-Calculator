@@ -2,7 +2,7 @@ import streamlit as st
 from calculator import calculate_patient_cost
 
 st.set_page_config(
-    page_title="Patient Medical Cost Calculator", 
+    page_title="Out Of Pocket Cost Calculator", 
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -109,7 +109,7 @@ with col1:
                        font-weight: bold;
                        margin-bottom: 0.5rem;
                        font-size: 1.8rem;'>
-                🩺 Patient Medical Cost Calculator
+                🩺 Out Of Pocket Cost Calculator
             </h1>
             """,
             unsafe_allow_html=True
