@@ -20,7 +20,7 @@ def reset_form():
     st.rerun()
 
 # --- TOP BAR WITH RESET BUTTON ---
-top_col1, top_col2 = st.columns([3, 1])
+top_col1, top_col2 = st.columns([6, 1])
 with top_col1:
     st.title("🩺 Patient Medical Cost Calculator")
 with top_col2:
