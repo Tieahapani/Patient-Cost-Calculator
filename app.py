@@ -1,7 +1,62 @@
 import streamlit as st
 from calculator import calculate_patient_cost
 
-st.set_page_config(page_title="Patient Medical Cost Calculator", layout="wide")
+st.set_page_config(
+    page_title="Patient Medical Cost Calculator", 
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+# Custom CSS to reduce spacing and make layout more compact
+st.markdown("""
+<style>
+    /* Reduce top padding */
+    .main > div {
+        padding-top: 1rem;
+    }
+    
+    /* Reduce spacing between elements */
+    .stMarkdown {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Compact form inputs */
+    .stTextInput > div > div > input {
+        height: 2.5rem;
+    }
+    
+    .stNumberInput > div > div > input {
+        height: 2.5rem;
+    }
+    
+    /* Reduce header spacing */
+    h1, h2, h3 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Compact button styling */
+    .stButton > button {
+        height: 2.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Reduce column gaps */
+    .css-1d391kg {
+        gap: 1rem;
+    }
+    
+    /* Make results section sticky on larger screens */
+    @media (min-width: 768px) {
+        .results-container {
+            position: sticky;
+            top: 1rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # --- INITIALIZE SESSION STATE ---
 def initialize_session_state():
@@ -40,63 +95,70 @@ def reset_form():
 initialize_session_state()
 
 # --- MAIN LAYOUT COLUMNS ---
-col1, col2 = st.columns([2, 1])  # Left: form, Right: results
+col1, col2 = st.columns([3, 2])  # Adjusted ratio for better space usage
 
 # --- TITLE + RESET BUTTON INLINE ---
 with col1:
-    title_col, reset_button_col = st.columns([8, 1])  # Wider title area
+    title_col, reset_button_col = st.columns([6, 1])  # More compact title area
     
     with title_col:
         st.markdown(
             """
-            <h2 style='font-family: "Segoe UI", sans-serif;
+            <h1 style='font-family: "Segoe UI", sans-serif;
                        color: #007C91;
                        font-weight: bold;
-                       margin-bottom: 0;'>
+                       margin-bottom: 0.5rem;
+                       font-size: 1.8rem;'>
                 🩺 Patient Medical Cost Calculator
-            </h2>
+            </h1>
             """,
             unsafe_allow_html=True
         )
     
     with reset_button_col:
-        if st.button("🔄 Reset"):
+        if st.button("🔄", help="Reset Form"):
             reset_form()
 
     # --- INPUT SECTIONS ---
-    st.markdown("<h2 style='color:#007C91;'>Patient Info</h2>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem;'>Patient Info</h3>", unsafe_allow_html=True)
     
     row1_col1, row1_col2 = st.columns(2)
     with row1_col1:
-        patient_name = st.text_input("Patient Name", key="patient_name")
+        patient_name = st.text_input("Patient Name", key="patient_name", placeholder="Enter patient name")
     with row1_col2: 
-        insurance_company = st.text_input("Insurance Company", key="insurance_company")
+        insurance_company = st.text_input("Insurance Company", key="insurance_company", placeholder="Insurance provider")
     
     row2_col1, row2_col2 = st.columns(2)
     with row2_col1: 
-        mri_number = st.text_input("MRI Number", key="mri_number")
+        mri_number = st.text_input("MRI Number", key="mri_number", placeholder="MRI number")
     with row2_col2: 
-        cpt_code = st.text_input("CPT Code (5 characters)", max_chars=6, key="cpt_code")
+        cpt_code = st.text_input("CPT Code", max_chars=6, key="cpt_code", placeholder="5-digit code")
     
-    st.markdown("<h2 style='color:#007C91;'>Medical Cost Inputs</h2>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem; margin-top: 1rem;'>Medical Cost Inputs</h3>", unsafe_allow_html=True)
     
-    st.number_input("Procedure Cost ($)", key="procedure_cost", min_value=0.0)
-    st.number_input("Remaining Deductible ($)", key="remaining_deductible", min_value=0.0)
-    st.slider("Co-Insurance (%)", min_value=0, max_value=100, 
-              value=st.session_state.coinsurance, step=1, key="coinsurance")
-    st.number_input("Co-Pay Amount ($)", key="copay", min_value=0.0)
-    st.number_input("Out-of-Pocket Max ($)", key="oop_max", min_value=0.0)
+    # Arrange cost inputs in a more compact layout
+    cost_col1, cost_col2 = st.columns(2)
+    with cost_col1:
+        st.number_input("Procedure Cost ($)", key="procedure_cost", min_value=0.0, placeholder="0.00")
+        st.number_input("Co-Pay Amount ($)", key="copay", min_value=0.0, placeholder="0.00")
+        st.number_input("Out-of-Pocket Max ($)", key="oop_max", min_value=0.0, placeholder="0.00")
     
-    # --- BUTTONS: CALCULATE & RESET (BOTTOM) ---
-    button_col1, button_col2 = st.columns([1, 1])
-    with button_col1:
-        calculate_pressed = st.button("📋 Calculate")
-    with button_col2:
-        if st.button("🔁 Reset (Below)"):
-            reset_form()
+    with cost_col2:
+        st.number_input("Remaining Deductible ($)", key="remaining_deductible", min_value=0.0, placeholder="0.00")
+        st.slider("Co-Insurance (%)", min_value=0, max_value=100, 
+                  value=st.session_state.coinsurance, step=1, key="coinsurance")
+        # Add some spacing to align with the left column
+        st.write("")
+    
+    # --- CALCULATE BUTTON (PROMINENT) ---
+    st.markdown("<div style='margin-top: 1rem;'></div>", unsafe_allow_html=True)
+    calculate_pressed = st.button("📋 Calculate Patient Cost", type="primary", use_container_width=True)
 
 # --- RESULTS SECTION ---
 with col2:
+    # Add container for sticky positioning on larger screens
+    st.markdown('<div class="results-container">', unsafe_allow_html=True)
+    
     if calculate_pressed:
         # Get values from session state
         procedure_cost = st.session_state.procedure_cost
@@ -111,12 +173,50 @@ with col2:
                 procedure_cost, remaining_deductible, coinsurance, copay, oop_max
             )
             
-            st.markdown("<h2 style='color:#007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
-            st.markdown(f"**Patient Name:** {st.session_state.patient_name}")
-            st.markdown(f"**MRI Number:** {st.session_state.mri_number}")
-            st.markdown(f"**Insurance Company:** {st.session_state.insurance_company}") 
-            st.markdown(f"**CPT Code:** {st.session_state.cpt_code.upper()}") 
+            st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem;'>🧾 Results</h3>", unsafe_allow_html=True)
+            
+            # Patient info in a more compact format
+            st.markdown(f"**Patient:** {st.session_state.patient_name or 'Not provided'}")
+            st.markdown(f"**MRI #:** {st.session_state.mri_number or 'Not provided'}")
+            st.markdown(f"**Insurance:** {st.session_state.insurance_company or 'Not provided'}") 
+            st.markdown(f"**CPT Code:** {st.session_state.cpt_code.upper() or 'Not provided'}")
+            
+            # Add some spacing
+            st.markdown("<div style='margin: 1rem 0;'></div>", unsafe_allow_html=True)
+            
+            # Cost breakdown
             st.success(f"**Patient Pays:** ${patient_cost:.2f}")
             st.info(f"**Insurance Covers:** ${insurance_covers:.2f}")
+            
+            # Additional details in an expander to save space
+            with st.expander("💡 Calculation Details"):
+                st.write(f"**Procedure Cost:** ${procedure_cost:.2f}")
+                st.write(f"**Remaining Deductible:** ${remaining_deductible:.2f}")
+                st.write(f"**Co-Insurance:** {coinsurance}%")
+                st.write(f"**Co-Pay:** ${copay:.2f}")
+                st.write(f"**Out-of-Pocket Max:** ${oop_max:.2f}")
+                
         else:
-            st.warning("Please enter a valid procedure cost to calculate results.")
+            st.warning("⚠️ Please enter a valid procedure cost to calculate results.")
+    else:
+        # Show placeholder when no calculation has been performed
+        st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem;'>🧾 Results</h3>", unsafe_allow_html=True)
+        st.info("Enter patient information and medical costs, then click 'Calculate' to see results.")
+        
+        # Quick reference guide
+        with st.expander("📋 Quick Reference"):
+            st.markdown("""
+            **Required Information:**
+            - Patient Name & MRI Number
+            - Insurance Company
+            - CPT Code (5 characters)
+            - Procedure Cost
+            
+            **Optional Information:**
+            - Remaining Deductible
+            - Co-Insurance % (default: 20%)
+            - Co-Pay Amount
+            - Out-of-Pocket Maximum
+            """)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
