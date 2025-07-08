@@ -20,20 +20,20 @@ def reset_form():
     st.rerun()
 
 # --- MAIN LAYOUT COLUMNS ---
-col1, col2 = st.columns([2, 1])  # Form (left), Results (right)
+col1, col2 = st.columns([2, 1])  # Left: form, Right: results
 
-# --- TITLE + INLINE RESET BUTTON (inside col1) ---
+# --- TITLE + RESET BUTTON INLINE ---
 with col1:
-    title_col, reset_button_col = st.columns([7, 1])
+    title_col, reset_button_col = st.columns([8, 1])  # Wider title area
     with title_col:
         st.markdown(
             """
-            <h1 style='font-family: "Segoe UI", sans-serif;
+            <h2 style='font-family: "Segoe UI", sans-serif;
                        color: #007C91;
                        font-weight: bold;
                        margin-bottom: 0;'>
                 🩺 Patient Medical Cost Calculator
-            </h1>
+            </h2>
             """,
             unsafe_allow_html=True
         )
@@ -41,19 +41,19 @@ with col1:
         if st.button("🔄 Reset"):
             reset_form()
 
-    # --- FORM INPUTS ---
-    st.header("Patient Info")
+    # --- INPUT SECTIONS ---
+    st.markdown("<h2 style='color:#007C91;'>Patient Info</h2>", unsafe_allow_html=True)
     patient_name = st.text_input("Patient Name", key="patient_name")
     mri_number = st.text_input("MRI Number", key="mri_number")
 
-    st.header("Medical Cost Inputs")
+    st.markdown("<h2 style='color:#007C91;'>Medical Cost Inputs</h2>", unsafe_allow_html=True)
     st.number_input("Procedure Cost ($)", key="procedure_cost")
     st.number_input("Remaining Deductible ($)", key="remaining_deductible")
     st.slider("Co-Insurance (%)", min_value=0, max_value=100, value=st.session_state.get("coinsurance", 20), step=1, key="coinsurance")
     st.number_input("Co-Pay Amount ($)", key="copay")
     st.number_input("Out-of-Pocket Max ($)", key="oop_max")
 
-    # --- BOTTOM BUTTONS ---
+    # --- BUTTONS: CALCULATE & RESET (BOTTOM) ---
     button_col1, button_col2 = st.columns([1, 1])
     with button_col1:
         calculate_pressed = st.button("📋 Calculate")
@@ -61,7 +61,7 @@ with col1:
         if st.button("🔁 Reset (Below)"):
             reset_form()
 
-# --- RIGHT COLUMN: Results ---
+# --- RESULTS SECTION ---
 with col2:
     if 'calculate_pressed' in locals() and calculate_pressed:
         procedure_cost = st.session_state["procedure_cost"]
@@ -74,7 +74,7 @@ with col2:
             procedure_cost, remaining_deductible, coinsurance, copay, oop_max
         )
 
-        st.header("🧾 Results")
+        st.markdown("<h2 style='color:#007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
         st.markdown(f"**Patient Name:** {patient_name}")
         st.markdown(f"**MRI Number:** {mri_number}")
         st.success(f"**Patient Pays:** ${patient_cost:.2f}")
