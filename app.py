@@ -24,7 +24,7 @@ col1, col2 = st.columns([2, 1])  # Form (left), Results (right)
 
 # --- TITLE + INLINE RESET BUTTON (inside col1) ---
 with col1:
-    title_col, reset_button_col = st.columns([5, 1])
+    title_col, reset_button_col = st.columns([7, 1])
     with title_col:
         st.markdown(
             """
