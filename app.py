@@ -151,7 +151,12 @@ with col1:
         st.write("")
     
     # --- CALCULATE BUTTON (PROMINENT) ---
-    st.markdown("<div style='margin-top: 1rem;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style= 'margin-top: 1rem;'></div>", unsafe_allow_html=True)
+    calculate_pressed = st.button("📋 Calculate Patient Cost", type="primary", use_container_width=True)
+    <style>
+         /* Ensure primary buttons use your theme color */ 
+         .stButton > button[Kind="primary"] {
+         back
     calculate_pressed = st.button("📋 Calculate Patient Cost", type="primary", use_container_width=True)
 
 # --- RESULTS SECTION ---
