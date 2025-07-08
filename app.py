@@ -6,12 +6,12 @@ st.set_page_config(page_title="Patient Medical Cost Calculator", layout="wide")
 # --- RESET FUNCTION ---
 def reset_form():
     keys_to_clear = [
-        "patient_name", "mri_number", "procedure_cost",
+        "patient_name", "mri_number", "insurance_company", "cpt_code", "procedure_cost",
         "remaining_deductible", "copay", "oop_max", "coinsurance"
     ]
     for key in keys_to_clear:
         if key in st.session_state:
-            if key in ["patient_name", "mri_number"]:
+            if key in ["patient_name", "mri_number","insurance_company", "cpt_code"]:
                 st.session_state[key] = ""
             elif key == "coinsurance":
                 st.session_state[key] = 20
@@ -43,8 +43,16 @@ with col1:
 
     # --- INPUT SECTIONS ---
     st.markdown("<h2 style='color:#007C91;'>Patient Info</h2>", unsafe_allow_html=True)
-    patient_name = st.text_input("Patient Name", key="patient_name")
-    mri_number = st.text_input("MRI Number", key="mri_number")
+    row1_col1, row1_col2 = st.columns(2)
+    with row1_col1:
+         patient_name = st.text_input("Patient Name", key="patient_name")
+    with row1_col2: 
+        insurance_company = st.text_input("Insurance Company", key="insurance_company")
+    row2_col1, row2_col2 = st.columns(2)
+    with row2_col1: 
+         mri_number = st.text_input("MRI Number", key="mri_number")
+    with row2_col2: 
+        cpt_code = st.text_input("CPT Code (5 characters)", max_chars= 5, key="cpt_code")
 
     st.markdown("<h2 style='color:#007C91;'>Medical Cost Inputs</h2>", unsafe_allow_html=True)
     st.number_input("Procedure Cost ($)", key="procedure_cost")
@@ -77,5 +85,7 @@ with col2:
         st.markdown("<h2 style='color:#007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
         st.markdown(f"**Patient Name:** {patient_name}")
         st.markdown(f"**MRI Number:** {mri_number}")
+        st.markdown(f"**Insurance Company:** {insurance_company}") 
+        st.markdown(f"**CPT Code:** {cpt_code.upper()}") 
         st.success(f"**Patient Pays:** ${patient_cost:.2f}")
         st.info(f"**Insurance Covers:** ${insurance_covers:.2f}")
