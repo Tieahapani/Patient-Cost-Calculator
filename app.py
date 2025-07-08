@@ -10,15 +10,16 @@ with top_col1:
 with top_col2:
     if st.button("🔄 Reset All (Top)"):
         for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
-            st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
-        # Reset slider separately to 20
-        st.session_state["coinsurance"] = 20
+            if key in st.session_state:
+                st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
+        if "coinsurance" in st.session_state:
+            st.session_state["coinsurance"] = 20
         st.rerun()
 
-# Use 2 unequal-width columns: form wider, result narrower
+# --- LAYOUT COLUMNS ---
 col1, col2 = st.columns([2, 1])  # 2:1 width ratio
 
-# --- LEFT COLUMN: Form Inputs ---
+# --- LEFT COLUMN: Inputs ---
 with col1:
     st.header("Patient Info")
     patient_name = st.text_input("Patient Name", key="patient_name")
@@ -38,8 +39,10 @@ with col1:
     with button_col2:
         if st.button("🔁 Reset (Below)"):
             for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
-                st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
-            st.session_state["coinsurance"] = 20
+                if key in st.session_state:
+                    st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
+            if "coinsurance" in st.session_state:
+                st.session_state["coinsurance"] = 20
             st.rerun()
 
 # --- RIGHT COLUMN: Results ---
