@@ -59,7 +59,8 @@ with col1:
     st.number_input("Remaining Deductible ($)", key="remaining_deductible")
     st.slider("Co-Insurance (%)", min_value=0, max_value=100, value=st.session_state.get("coinsurance", 20), step=1, key="coinsurance")
     st.number_input("Co-Pay Amount ($)", key="copay")
-    st.number_input("Out-of-Pocket Max ($)", key="oop_max")
+    st.number_input("Out-of-Pocket Max ($)", key="oop_max") 
+    st.markdown("---")
 
     # --- BUTTONS: CALCULATE & RESET (BOTTOM) ---
     button_col1, button_col2 = st.columns([1, 1])
