@@ -172,51 +172,16 @@ with col2:
             patient_cost, insurance_covers = calculate_patient_cost(
                 procedure_cost, remaining_deductible, coinsurance, copay, oop_max
             )
+               st.markdown("<h2 style='color:
+#007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
+        st.markdown(f"Patient Name: {patient_name}")
+        st.markdown(f"MRI Number: {mri_number}")
+        st.markdown(f"Insurance Company: {insurance_company}") 
+        st.markdown(f"CPT Code: {cpt_code.upper()}") 
+        st.success(f"Patient Pays: ${patient_cost:.2f}")
+        st.info(f"Insurance Covers: ${insurance_covers:.2f}")
             
-            st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem;'>🧾 Results</h3>", unsafe_allow_html=True)
             
-            # Patient info in a more compact format
-            st.markdown(f"**Patient:** {st.session_state.patient_name or 'Not provided'}")
-            st.markdown(f"**MRI #:** {st.session_state.mri_number or 'Not provided'}")
-            st.markdown(f"**Insurance:** {st.session_state.insurance_company or 'Not provided'}") 
-            st.markdown(f"**CPT Code:** {st.session_state.cpt_code.upper() or 'Not provided'}")
-            
-            # Add some spacing
-            st.markdown("<div style='margin: 1rem 0;'></div>", unsafe_allow_html=True)
-            
-            # Cost breakdown
-            st.success(f"**Patient Pays:** ${patient_cost:.2f}")
-            st.info(f"**Insurance Covers:** ${insurance_covers:.2f}")
-            
-            # Additional details in an expander to save space
-            with st.expander("💡 Calculation Details"):
-                st.write(f"**Procedure Cost:** ${procedure_cost:.2f}")
-                st.write(f"**Remaining Deductible:** ${remaining_deductible:.2f}")
-                st.write(f"**Co-Insurance:** {coinsurance}%")
-                st.write(f"**Co-Pay:** ${copay:.2f}")
-                st.write(f"**Out-of-Pocket Max:** ${oop_max:.2f}")
                 
-        else:
-            st.warning("⚠️ Please enter a valid procedure cost to calculate results.")
-    else:
-        # Show placeholder when no calculation has been performed
-        st.markdown("<h3 style='color:#007C91; margin-bottom: 0.5rem;'>🧾 Results</h3>", unsafe_allow_html=True)
-        st.info("Enter patient information and medical costs, then click 'Calculate' to see results.")
-        
-        # Quick reference guide
-        with st.expander("📋 Quick Reference"):
-            st.markdown("""
-            **Required Information:**
-            - Patient Name & MRI Number
-            - Insurance Company
-            - CPT Code (5 characters)
-            - Procedure Cost
+
             
-            **Optional Information:**
-            - Remaining Deductible
-            - Co-Insurance % (default: 20%)
-            - Co-Pay Amount
-            - Out-of-Pocket Maximum
-            """)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
