@@ -52,7 +52,7 @@ with col1:
     with row2_col1: 
          mri_number = st.text_input("MRI Number", key="mri_number")
     with row2_col2: 
-        cpt_code = st.text_input("CPT Code (5 characters)", max_chars= 5, key="cpt_code")
+        cpt_code = st.text_input("CPT Code (5 characters)", max_chars= 6, key="cpt_code")
 
     st.markdown("<h2 style='color:#007C91;'>Medical Cost Inputs</h2>", unsafe_allow_html=True)
     st.number_input("Procedure Cost ($)", key="procedure_cost")
