@@ -140,13 +140,14 @@ with col1:
     cost_col1, cost_col2 = st.columns(2)
     with cost_col1:
         st.number_input("Procedure Cost ($)", key="procedure_cost", min_value=0.0, placeholder="0.00")
-        st.number_input("Co-Pay Amount ($)", key="copay", min_value=0.0, placeholder="0.00")
+        st.number_input("Remaining Deductible ($)", key="remaining_deductible", min_value=0.0, placeholder="0.00")
         st.number_input("Out-of-Pocket Max ($)", key="oop_max", min_value=0.0, placeholder="0.00")
     
     with cost_col2:
-        st.number_input("Remaining Deductible ($)", key="remaining_deductible", min_value=0.0, placeholder="0.00")
         st.slider("Co-Insurance (%)", min_value=0, max_value=100, 
                   value=st.session_state.coinsurance, step=1, key="coinsurance")
+        st.number_input("Co-Pay Amount ($)", key="copay", min_value=0.0, placeholder="0.00")
+        
         # Add some spacing to align with the left column
         st.write("")
     
