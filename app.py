@@ -3,21 +3,32 @@ from calculator import calculate_patient_cost
 
 st.set_page_config(page_title="Patient Medical Cost Calculator", layout="wide")
 
+# --- RESET FUNCTION ---
+def reset_form():
+    keys_to_clear = [
+        "patient_name", "mri_number", "procedure_cost",
+        "remaining_deductible", "copay", "oop_max", "coinsurance"
+    ]
+    for key in keys_to_clear:
+        if key in st.session_state:
+            if key in ["patient_name", "mri_number"]:
+                st.session_state[key] = ""
+            elif key == "coinsurance":
+                st.session_state[key] = 20
+            else:
+                st.session_state[key] = 0.0
+    st.rerun()
+
 # --- TOP BAR WITH RESET BUTTON ---
-top_col1, top_col2 = st.columns([5, 1])
+top_col1, top_col2 = st.columns([3, 1])
 with top_col1:
     st.title("🩺 Patient Medical Cost Calculator")
 with top_col2:
     if st.button("🔄 Reset All (Top)"):
-        for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
-            if key in st.session_state:
-                st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
-        if "coinsurance" in st.session_state:
-            st.session_state["coinsurance"] = 20
-        st.rerun()
+        reset_form()
 
-# --- LAYOUT COLUMNS ---
-col1, col2 = st.columns([2, 1])  # 2:1 width ratio
+# --- MAIN LAYOUT COLUMNS ---
+col1, col2 = st.columns([2, 1])
 
 # --- LEFT COLUMN: Inputs ---
 with col1:
@@ -32,18 +43,12 @@ with col1:
     st.number_input("Co-Pay Amount ($)", key="copay")
     st.number_input("Out-of-Pocket Max ($)", key="oop_max")
 
-    # Buttons side-by-side
     button_col1, button_col2 = st.columns([1, 1])
     with button_col1:
         calculate_pressed = st.button("📋 Calculate")
     with button_col2:
         if st.button("🔁 Reset (Below)"):
-            for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
-                if key in st.session_state:
-                    st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
-            if "coinsurance" in st.session_state:
-                st.session_state["coinsurance"] = 20
-            st.rerun()
+            reset_form()
 
 # --- RIGHT COLUMN: Results ---
 with col2:
