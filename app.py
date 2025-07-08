@@ -13,7 +13,7 @@ with top_col2:
             st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
         # Reset slider separately to 20
         st.session_state["coinsurance"] = 20
-        st.experimental_rerun()
+        st.rerun()
 
 # Use 2 unequal-width columns: form wider, result narrower
 col1, col2 = st.columns([2, 1])  # 2:1 width ratio
@@ -40,7 +40,7 @@ with col1:
             for key in ["patient_name", "mri_number", "procedure_cost", "remaining_deductible", "copay", "oop_max"]:
                 st.session_state[key] = "" if key in ["patient_name", "mri_number"] else 0.0
             st.session_state["coinsurance"] = 20
-            st.experimental_rerun()
+            st.rerun()
 
 # --- RIGHT COLUMN: Results ---
 with col2:
