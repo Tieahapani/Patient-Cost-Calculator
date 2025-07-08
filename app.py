@@ -172,8 +172,8 @@ with col2:
             patient_cost, insurance_covers = calculate_patient_cost(
                 procedure_cost, remaining_deductible, coinsurance, copay, oop_max
             )
-               st.markdown("<h2 style='color:
-#007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color:
+               #007C91;'>🧾 Results</h2>", unsafe_allow_html=True)
         st.markdown(f"Patient Name: {patient_name}")
         st.markdown(f"MRI Number: {mri_number}")
         st.markdown(f"Insurance Company: {insurance_company}") 
