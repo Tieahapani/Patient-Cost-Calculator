@@ -19,16 +19,16 @@ def reset_form():
                 st.session_state[key] = 0.0
     st.rerun()
 
-# --- TITLE + INLINE RESET BUTTON ---
-title_col, reset_col = st.columns([7, 1])  # tighter spacing
-with title_col:
-    st.markdown("## 🩺 Patient Medical Cost Calculator")
-with reset_col:
-    if st.button("🔄 Reset"):
+# --- TOP BAR WITH RESET BUTTON ---
+top_col1, top_col2 = st.columns([5, 1])
+with top_col1:
+    st.title("🩺 Patient Medical Cost Calculator")
+with top_col2:
+    if st.button("🔄 Reset All (Top)"):
         reset_form()
 
 # --- MAIN LAYOUT COLUMNS ---
-col1, col2 = st.columns([2, 1])  # Input form wider than results
+col1, col2 = st.columns([2, 1])
 
 # --- LEFT COLUMN: Inputs ---
 with col1:
@@ -43,7 +43,6 @@ with col1:
     st.number_input("Co-Pay Amount ($)", key="copay")
     st.number_input("Out-of-Pocket Max ($)", key="oop_max")
 
-    # Buttons side-by-side
     button_col1, button_col2 = st.columns([1, 1])
     with button_col1:
         calculate_pressed = st.button("📋 Calculate")
