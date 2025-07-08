@@ -26,7 +26,19 @@ col1, col2 = st.columns([2, 1])  # Form (left), Results (right)
 with col1:
     title_col, reset_button_col = st.columns([5, 1])
     with title_col:
-        st.markdown("## 🩺 Patient Medical Cost Calculator")
+        st.markdown(
+            """
+            <h2 style= 'font-family: "Segoe UI", sans-serif; 
+                        color: #1E90FF;
+                        font-weight: bold; 
+                        font-size: 32px; 
+                        margin-bottom: 0;'>
+                         🩺 Patient Medical Cost Calculator
+        </h2>
+        """,
+        unsafe_allow_html=True
+        
+        )
     with reset_button_col:
         if st.button("🔄 Reset"):
             reset_form()
