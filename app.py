@@ -25,23 +25,23 @@ col1, col2 = st.columns([2, 1])  # Form (left), Results (right)
 # --- TITLE + INLINE RESET BUTTON (inside col1) ---
 with col1:
     title_col, reset_button_col = st.columns([5, 1])
-  with title_col:
-    st.markdown(
-        """
-        <h1 style='font-family: "Segoe UI", sans-serif;
-                   color: #007C91;
-                   font-weight: bold;
-                   margin-bottom: 0;'>
-            🩺 Patient Medical Cost Calculator
-        </h1>
-        """,
-        unsafe_allow_html=True
-    )
-
+    with title_col:
+        st.markdown(
+            """
+            <h1 style='font-family: "Segoe UI", sans-serif;
+                       color: #007C91;
+                       font-weight: bold;
+                       margin-bottom: 0;'>
+                🩺 Patient Medical Cost Calculator
+            </h1>
+            """,
+            unsafe_allow_html=True
+        )
     with reset_button_col:
         if st.button("🔄 Reset"):
             reset_form()
 
+    # --- FORM INPUTS ---
     st.header("Patient Info")
     patient_name = st.text_input("Patient Name", key="patient_name")
     mri_number = st.text_input("MRI Number", key="mri_number")
@@ -53,7 +53,7 @@ with col1:
     st.number_input("Co-Pay Amount ($)", key="copay")
     st.number_input("Out-of-Pocket Max ($)", key="oop_max")
 
-    # Buttons: Calculate & Reset (again for user convenience)
+    # --- BOTTOM BUTTONS ---
     button_col1, button_col2 = st.columns([1, 1])
     with button_col1:
         calculate_pressed = st.button("📋 Calculate")
