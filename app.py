@@ -145,7 +145,7 @@ with col1:
     
     with cost_col2:
         st.slider("Co-Insurance (%)", min_value=0, max_value=100, 
-                  value=st.session_state.coinsurance, step=1, key="coinsurance")
+                  value=st.session_state.coinsurance, step=5, key="coinsurance")
         st.number_input("Co-Pay Amount ($)", key="copay", min_value=0.0, placeholder="0.00")
         
         # Add some spacing to align with the left column
